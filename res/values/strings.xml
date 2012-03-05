@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="hello">Hello World, MainActivity!</string>
+    <string name="app_name">M42Lenses</string>
+    <string name="sample_list_item_text">Carl Zeiss Jena Flektogon 20mm f/2.8 MC</string>
+    <string name="search_hint">Search for M42 lens</string>
+    <string name="caption_all">All</string>
+    <string name="caption_all_vendor">All vendors</string>
+    <string name="caption_lens_name">Lens name is unknown</string>
+    <string name="caption_cateogory">Category:</string>
+    <string name="caption_year_introduction">Year of introduction:</string>
+    <string name="caption_fmin">Min focal length:</string>
+    <string name="caption_fmax">Max Focal length:</string>
+    <string name="caption_amax">Max Aperture:</string>
+    <string name="caption_amin">Min Aperture:</string>
+    <string name="caption_weight">Weight:</string>
+    <string name="caption_min_focus">Min focus:</string>
+    <string name="caption_filter">Filter:</string>
+    <string name="caption_na">N/A</string>
+    <string name="caption_reviewed_by">Reviewed by</string>
+
+</resources>
