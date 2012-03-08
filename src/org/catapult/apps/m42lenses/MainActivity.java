@@ -24,9 +24,13 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
@@ -120,6 +124,45 @@ public class MainActivity extends ListActivity {
 		ListView listView = this.getListView();
 		listView.setTextFilterEnabled(true);
 		listView.setOnItemClickListener(onItemClickListener);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.app.Activity#onCreateOptionsMenu(android.view.Menu)
+	 */
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// TODO Auto-generated method stub
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.main_menu, menu);
+		return true;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.app.Activity#onOptionsItemSelected(android.view.MenuItem)
+	 */
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// TODO Auto-generated method stub
+		switch (item.getItemId()) {
+		case R.id.filterByCategoryMenuItem:
+			showCategoryDialog();
+			return true;
+
+		case R.id.filterByVendorMenuItem:
+			showVendorDialog();
+			return true;
+
+		case R.id.searchMenuItem:
+			return true;
+
+		default:
+			break;
+		}
+		return false;
 	}
 
 	public OnItemClickListener onItemClickListener = new AdapterView.OnItemClickListener() {
@@ -278,7 +321,7 @@ public class MainActivity extends ListActivity {
 			if (lens != null) {
 				TextView nameTextView = (TextView) v.findViewById(R.id.label);
 				nameTextView.setText(lens.getName());
-			//	displayLensImage(lens.getIds());
+				// displayLensImage(lens.getIds());
 			}
 			return v;
 		}
@@ -287,7 +330,8 @@ public class MainActivity extends ListActivity {
 			final AssetManager assetManager = getAssets();
 			try {
 				ImageView lensImageView = (ImageView) findViewById(R.id.icon);
-				InputStream ims = assetManager.open("lenses/" + lensId + ".jpg");
+				InputStream ims = assetManager
+						.open("lenses/" + lensId + ".jpg");
 				Drawable d = Drawable.createFromStream(ims, null);
 				lensImageView.setImageDrawable(d);
 
@@ -295,7 +339,7 @@ public class MainActivity extends ListActivity {
 				Log.d(TAG, e.getMessage());
 			}
 		}
-		
+
 		public void filterBySettings() {
 			items.clear();
 			for (int i = 0; i < lensesArraylist.size(); i++) {

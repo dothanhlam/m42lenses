@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/filterByVendorMenuItem"
+        android:icon="@drawable/ic_menu_sort_by_size"
+        android:title="@string/app_filter_by_vendor">
+    </item>
+
+    <item
+        android:id="@+id/filterByCategoryMenuItem"
+        android:icon="@drawable/ic_menu_archive"
+        android:title="@string/app_filter_by_category">
+    </item>
+
+    <item
+        android:id="@+id/searchMenuItem"
+        android:icon="@drawable/ic_menu_search"
+        android:title="@string/app_search">
+    </item>
+
+</menu>
