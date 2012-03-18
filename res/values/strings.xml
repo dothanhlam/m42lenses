@@ -24,5 +24,6 @@
     <string name="app_filter_by_vendor">Vendor</string>
     <string name="app_setting">Setting</string>
     <string name="app_filter_by_category">Category</string>
+    <string name="msg_search_does_not_match">Search does not match anything !</string>
 
 </resources>

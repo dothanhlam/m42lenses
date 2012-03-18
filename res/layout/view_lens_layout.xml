@@ -134,7 +134,7 @@
             </TableRow>
 
             <TableRow
-                android:id="@+id/tableRow2"
+                android:id="@+id/tableRow"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content" >
 
@@ -265,14 +265,15 @@
 
                 <ImageButton
                     android:id="@+id/mflensesImageButton"
-                    android:layout_width="wrap_content"
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:padding="6dip"
+                    android:padding="6dip" 
+                     android:background="#fff"
                     android:src="@drawable/mflenses_logo" />
 
                 <ImageButton
                     android:id="@+id/pentaxForumImageButton"
-                    android:layout_width="wrap_content"
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:background="#000"
                     android:padding="6dip"

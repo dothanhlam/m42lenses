@@ -1,8 +1,8 @@
 package org.catapult.apps.m42lenses;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 import org.catapult.apps.m42lenses.activities.ViewLensActivity;
 import org.catapult.apps.m42lenses.helper.DatabaseHelper;
@@ -13,14 +13,13 @@ import org.catapult.apps.m42lenses.model.Vendor;
 
 import android.app.AlertDialog;
 import android.app.ListActivity;
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.AssetManager;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -30,12 +29,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends ListActivity {
 	@SuppressWarnings("unused")
@@ -124,6 +122,7 @@ public class MainActivity extends ListActivity {
 		ListView listView = this.getListView();
 		listView.setTextFilterEnabled(true);
 		listView.setOnItemClickListener(onItemClickListener);
+
 	}
 
 	/*
@@ -157,6 +156,7 @@ public class MainActivity extends ListActivity {
 			return true;
 
 		case R.id.searchMenuItem:
+			onSearchRequested();
 			return true;
 
 		default:
@@ -182,6 +182,10 @@ public class MainActivity extends ListActivity {
 			startActivity(intent);
 		}
 	};
+
+	private void search(String query) {
+		adapter.updateSearchingList(query);
+	}
 
 	private void fillData() {
 		DatabaseHelper helper = new DatabaseHelper(this);
@@ -259,6 +263,16 @@ public class MainActivity extends ListActivity {
 				for (int i = 0; i < categoryArrayList.size(); i++)
 					categoryAdapter.add(categoryArrayList.get(i));
 			}
+
+			Intent intent = getIntent();
+			if (Intent.ACTION_VIEW.equals(intent.getAction())) {
+				Log.d(TAG, "Intent.ACTION_VIEW");
+				finish();
+			} else if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+				Log.d(TAG, "Intent.ACTION_SEARCH");
+				String query = intent.getStringExtra(SearchManager.QUERY);
+				search(query);
+			}
 		}
 	};
 
@@ -321,22 +335,24 @@ public class MainActivity extends ListActivity {
 			if (lens != null) {
 				TextView nameTextView = (TextView) v.findViewById(R.id.label);
 				nameTextView.setText(lens.getName());
-				// displayLensImage(lens.getIds());
 			}
 			return v;
 		}
 
-		private void displayLensImage(String lensId) {
-			final AssetManager assetManager = getAssets();
-			try {
-				ImageView lensImageView = (ImageView) findViewById(R.id.icon);
-				InputStream ims = assetManager
-						.open("lenses/" + lensId + ".jpg");
-				Drawable d = Drawable.createFromStream(ims, null);
-				lensImageView.setImageDrawable(d);
-
-			} catch (Exception e) {
-				Log.d(TAG, e.getMessage());
+		public void updateSearchingList(String query) {
+			items.clear();
+			for (int i = 0; i < lensesArraylist.size(); i++) {
+				if (lensesArraylist.get(i).getName().toLowerCase()
+						.matches(".*" + query.toLowerCase() + ".*")) {
+					items.add(lensesArraylist.get(i));
+				}
+			}
+			if (items.size() > 0) {
+				notifyDataSetChanged();
+			}
+			else {
+				Toast.makeText(MainActivity.this, R.string.msg_search_does_not_match, 500).show();
+				finish();
 			}
 		}
 
